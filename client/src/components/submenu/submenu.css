@@ -1,0 +1,74 @@
+.submenu-open {
+  display: block;
+  /* background-color: pink;
+  transition: all 5s ease; */
+}
+
+.submenu-close {
+  display: none;
+  /* background-color: red;
+  transition: all 5s ease; */
+}
+
+.submenu {
+  transition: max-height 1s ease;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.submenu > button {
+  border: 0;
+  outline: 0;
+
+  width: 100%;
+  height: 40px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submenu > button:hover {
+  border-left: 4px solid #1c8195;
+  background-color: rgb(182, 182, 182);
+  cursor: pointer;
+}
+
+.submenu-title,
+.submenu-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.submenu-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.submenu-title {
+  width: 80%;
+}
+
+.submenu-options {
+  width: 30%;
+}
+
+.submenu-icon-button {
+  padding: 5px;
+}
+
+.submenu-icon-button:hover {
+  background-color: #1c8195;
+  color: white;
+  border-radius: 50%;
+}

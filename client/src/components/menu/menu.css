@@ -1,0 +1,100 @@
+.menu-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.menu-button {
+  padding: 0 10px 0 5px;
+  border: 0;
+  /* border-top: 1px solid #12171b; */
+  border-bottom: 1px solid #12171b;
+  cursor: pointer;
+  height: 30px;
+  /* background-color: #222d37; */
+  color: grey;
+  text-align: center;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.menu-button:hover {
+  background-color: #12171b;
+}
+
+.menu-button-itself {
+  height: 100%;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  color: grey;
+  cursor: pointer;
+}
+
+.menu-button-left-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.menu-button-icon {
+  width: 20px;
+}
+
+.menu-button-submenu-count-open {
+  outline: 5px;
+  background-color: #1c8195;
+  color: black;
+  padding: 0px 10px;
+  border-radius: 50%;
+  transition: background-color 1s ease;
+  box-shadow: inset 0 0 5px 1px #14535f;
+}
+
+.menu-button-submenu-count-close {
+  outline: 5px;
+  background-color: #12171b;
+  padding: 0px 10px;
+  border-radius: 50%;
+  transition: background-color 1s ease;
+  box-shadow: inset 0 0 5px 1px black;
+}
+
+.menu-button-option {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.menu-button-option-icon {
+  padding: 5px;
+}
+
+.menu-button-option-icon:hover {
+  background-color: #222d37;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+/*dropdown*/
+
+/*dropdown*/
+
+/*submenu*/
+.submenu-wrapper {
+  margin: 0;
+  padding: 0;
+  background-color: whitesmoke;
+  border-right: 1px solid #12171b;
+  transition: max-height 1s ease-out;
+  overflow: hidden;
+}
+
+/*submenu*/

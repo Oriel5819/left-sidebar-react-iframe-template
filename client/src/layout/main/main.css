@@ -1,0 +1,126 @@
+.main {
+  background-color: whitesmoke;
+  border-left: 1px solid #222b37;
+  border-bottom: 1px solid #222b37;
+  border-top: 1px solid #222b37;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-open,
+.sidebar-close,
+.menu-button {
+  display: flex;
+  flex-direction: column;
+}
+
+#add-panel {
+  background-color: #222b37;
+  transition: margin-top 1s ease;
+  border: 1px solid #12171b;
+}
+
+#main {
+  background-color: whitesmoke;
+  transition: height 1s ease;
+}
+
+#add-panel-header {
+  padding: 10px;
+  background-color: #12171b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  transition: height 1s ease;
+}
+
+.add-panel-header-button {
+  background-color: #12171b;
+  border: 0;
+  outline: 0;
+  color: white;
+  cursor: pointer;
+}
+
+#add-panel-header-button-add-accept-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+#add-panel-header-button-close,
+#add-panel-header-button-add,
+#add-panel-header-button-accept {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+}
+
+#add-panel-header-button-close:hover,
+#add-panel-header-button-add:hover,
+#add-panel-header-button-accept:hover {
+  background-color: #222b37;
+}
+
+.add-panel-header-inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.add-panel-header-inputs > input {
+  /* background-color: black; */
+  border: 0;
+  outline: 0;
+  height: 30px;
+  border-radius: 15px;
+  padding-left: 8px;
+}
+
+#add-panel-body {
+  color: white;
+  transition: all 1s ease;
+}
+
+#add-submenu-icon {
+  padding: 5px;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+#add-submenu-icon:hover {
+  background-color: #12171b;
+  cursor: pointer;
+}
+
+.submenu-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  gap: 5px;
+  height: 130px;
+  padding: 0 47px;
+}
+
+.submenu-itself {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #12171b;
+  border-radius: 10px;
+  gap: 5px;
+}
+
+.submenu-itself > input {
+  outline: 0;
+}
+
+/* spinner */
+.spinner {
+  margin: 10px;
+}
+/* spinner */

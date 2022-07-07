@@ -1,0 +1,78 @@
+/* modal */
+.ReactModal__Overlay--after-open {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.modal-header {
+  height: 40px;
+  padding: 0 10px;
+  background-color: #222d37;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  min-width: 500px;
+}
+
+.modal-body {
+  padding: 20px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  background-color: whitesmoke;
+}
+
+.modal-body > input {
+  height: 30px;
+  width: 70%;
+  border: 1px solid grey;
+  outline: 0;
+  background-color: white;
+  border-radius: 5px;
+  padding-left: 5px;
+  color: black;
+}
+
+.modal-footer {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background-color: whitesmoke;
+}
+
+.modal-footer > button {
+  border: 0;
+  outline: 0;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.modal-footer > button.update-button,
+.modal-footer > button.add-button {
+  background-color: #1c8195;
+}
+
+.modal-footer > button.delete-button {
+  color: red;
+  border: 1px solid red;
+}
+
+.modal-footer > button.delete-button:hover {
+  background-color: red;
+  color: white;
+  border: 1px solid white;
+}
+
+#errorMessage {
+  color: red;
+}
+
+/* modal */

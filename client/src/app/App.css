@@ -1,0 +1,40 @@
+body {
+  background-color: #222d37;
+}
+
+.App {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: 4% auto 3%;
+  grid-template-areas:
+    "hd hd"
+    "sidebar main"
+    "footer footer";
+  margin: 0;
+  height: 100vh;
+}
+
+.header {
+  grid-area: hd;
+}
+
+.sidebar-close {
+  grid-area: sidebar;
+  width: 11vw;
+  margin-left: -11vw;
+  transition: margin-left 1s ease;
+}
+
+.sidebar-open {
+  grid-area: sidebar;
+  width: 11vw;
+  margin-left: 0;
+  transition: margin-left 1s ease;
+}
+.main {
+  grid-area: main;
+}
+
+.footer {
+  grid-area: footer;
+}
