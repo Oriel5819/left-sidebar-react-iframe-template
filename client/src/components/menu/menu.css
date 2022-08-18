@@ -10,7 +10,7 @@
   /* border-top: 1px solid #12171b; */
   border-bottom: 1px solid #12171b;
   cursor: pointer;
-  height: 30px;
+  height: 40px;
   /* background-color: #222d37; */
   color: grey;
   text-align: center;
@@ -91,10 +91,16 @@
 .submenu-wrapper {
   margin: 0;
   padding: 0;
-  background-color: whitesmoke;
-  border-right: 1px solid #12171b;
+  background-color: grey;
+  /* border-right: 1px solid #12171b; */
   transition: max-height 1s ease-out;
   overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+  gap: 1px;
 }
 
 /*submenu*/

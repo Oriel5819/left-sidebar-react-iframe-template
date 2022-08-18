@@ -1,9 +1,10 @@
 .header {
   background-color: #222d37;
+
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  padding: 0 10px;
+  padding: 0 20px;
   align-items: center;
   height: 100%;
   color: white;
@@ -16,6 +17,7 @@
 }
 
 .left-header-button {
+  font-size: large;
   border: 0;
   outline: 0;
   background-color: #222d37;

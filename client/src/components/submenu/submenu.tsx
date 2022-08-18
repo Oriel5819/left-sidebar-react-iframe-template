@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./submenu.css";
 import { FaPen, FaTimes } from "react-icons/fa";
-import { setGlobalState } from "../../state/global.state";
+import { setGlobalState, useGlobalState } from "../../state/global.state";
 import UpdateSubmenuModal from "../modals/updateSubmenu/updateSubmenuModal";
 import DeleteSubmenuModal from "../modals/deleteSubmenu/deleteSubmenuModal";
 
@@ -71,7 +71,7 @@ const Submenu: React.FC<SubmenuProps> = ({
         onMouseLeave={() => setSubmenuHoverOn(false)}
       >
         <div className="submenu-title">{title}</div>
-        {submenuHoverOn && (
+        {useGlobalState("isAdministrator")[0] && submenuHoverOn && (
           <div className="submenu-options">
             <FaPen
               className="submenu-icon-button"

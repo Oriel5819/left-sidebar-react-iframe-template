@@ -98,7 +98,7 @@ const Menu = ({
                 {title.toLocaleUpperCase()}
               </div>
             </button>
-            {showOption ? (
+            {useGlobalState("isAdministrator")[0] && showOption ? (
               <div className="menu-button-option">
                 <FontAwesome.FaPlus
                   className="menu-button-option-icon"

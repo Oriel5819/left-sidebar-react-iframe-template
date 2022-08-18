@@ -9,6 +9,10 @@ import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { setGlobalState, useGlobalState } from "../../state/global.state";
 
 const Header = () => {
+  const [userIsAdministrator, setUserIsAdministrator] = React.useState<boolean>(
+    useGlobalState("isAdministrator")[0]
+  );
+
   const [openSidebar, setOpenSidebar] = React.useState<boolean>(
     useGlobalState("showSidebar")[0]
   );
@@ -18,7 +22,7 @@ const Header = () => {
     setOpenSidebar(!openSidebar);
   };
 
-  console.log(useGlobalState("showSidebar")[0]);
+  console.log(useGlobalState("isAdministrator")[0]);
 
   return (
     <header className="header">
@@ -31,12 +35,19 @@ const Header = () => {
           )}
         </button>
       </div>
+      <button
+        onClick={() => {
+          setGlobalState("isAdministrator", !userIsAdministrator);
+          setUserIsAdministrator(!userIsAdministrator);
+        }}
+      >
+        {userIsAdministrator ? "Administrator" : "IsNotAdministrator"}
+      </button>
       <div className="right-header">
         <button>
           <FontAwesomeIcon id="rocketchat-icon" icon={faRocket} />
         </button>
         <button>
-          {" "}
           <FontAwesomeIcon id="signout-icon" icon={faSignOutAlt} />
         </button>
       </div>

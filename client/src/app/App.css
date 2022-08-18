@@ -5,7 +5,7 @@ body {
 .App {
   display: grid;
   grid-template-columns: min-content 1fr;
-  grid-template-rows: 4% auto 3%;
+  grid-template-rows: 5% auto 5%;
   grid-template-areas:
     "hd hd"
     "sidebar main"
@@ -20,16 +20,16 @@ body {
 
 .sidebar-close {
   grid-area: sidebar;
-  width: 11vw;
-  margin-left: -11vw;
-  transition: margin-left 1s ease;
+  width: 15vw;
+  margin-left: -15vw;
+  transition: margin-left 0.5s ease;
 }
 
 .sidebar-open {
   grid-area: sidebar;
-  width: 11vw;
+  width: 15vw;
   margin-left: 0;
-  transition: margin-left 1s ease;
+  transition: margin-left 0.5s ease;
 }
 .main {
   grid-area: main;
