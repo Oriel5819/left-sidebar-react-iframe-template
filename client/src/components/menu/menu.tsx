@@ -76,7 +76,9 @@ const Menu = ({
       {
         <div className="menu-wrap">
           <div
-            className="menu-button"
+            className={
+              open && openIf === id ? "menu-button-open" : "menu-button-close"
+            }
             onMouseEnter={(e) => setShowOption(true)}
             onMouseLeave={(e) => setShowOption(false)}
           >
@@ -86,14 +88,14 @@ const Menu = ({
               onClick={() => handleOpenMenu(id)}
             >
               <div className="menu-button-left-content">
-                {/* //! CHECKING IF THE ICON IN THE DATABASE EXISTS IN THE IMPORTED ICONS */}
+                {/* //! CHECKING WHETHER THE ICON IN THE DATABASE EXISTS IN THE IMPORTED ICONS */}
                 {allFonts[`${icon}`] ? (
                   React.createElement(allFonts[`${icon}`])
                 ) : (
                   <FontAwesome.FaInfoCircle />
                 )}
-                {/* //! CHECKING IF THE ICON IN THE DATABASE EXISTS IN THE IMPORTED ICONS */}
-                {title.toLocaleUpperCase()}
+                {/* //! CHECKING WHETHER THE ICON IN THE DATABASE EXISTS IN THE IMPORTED ICONS */}
+                <div className="title">{title.toLocaleUpperCase()}</div>
               </div>
             </button>
             {useGlobalState("isAdministrator")[0] && showOption ? (
@@ -125,9 +127,9 @@ const Menu = ({
               open && openIf === id
                 ? {
                     maxHeight: allSubmenus.length * height,
-                    transition: "max-height 1s ease",
+                    transition: "max-height 0.5s ease",
                   }
-                : { maxHeight: "0", transition: "max-height 1s ease" }
+                : { maxHeight: "0", transition: "max-height 0.5s ease" }
             }
           >
             {allSubmenus.map((submenu, index) => {

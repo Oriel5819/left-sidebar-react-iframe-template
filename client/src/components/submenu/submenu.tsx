@@ -72,7 +72,7 @@ const Submenu: React.FC<SubmenuProps> = ({
         onMouseEnter={() => setSubmenuHoverOn(true)}
         onMouseLeave={() => setSubmenuHoverOn(false)}
       >
-        <div className="submenu-title">{title}</div>
+        <div className="submenu-title">{title.toLocaleUpperCase()}</div>
         {useGlobalState("isAdministrator")[0] && submenuHoverOn && (
           <div className="submenu-options">
             <FaPen

@@ -5,7 +5,7 @@ body {
 .App {
   display: grid;
   grid-template-columns: min-content 1fr;
-  grid-template-rows: 5% auto 5%;
+  grid-template-rows: 6% auto 6%;
   grid-template-areas:
     "hd hd"
     "sidebar main"
@@ -16,18 +16,21 @@ body {
 
 .header {
   grid-area: hd;
+  -webkit-box-shadow: 0 3px 5px rgba(34, 45, 55, 0.5);
+  -moz-box-shadow: 0 3px 5px rgba(34, 45, 55, 0.5);
+  box-shadow: 0 3px 5px rgba(34, 45, 55, 0.5);
 }
 
 .sidebar-close {
   grid-area: sidebar;
-  width: 15vw;
-  margin-left: -15vw;
+  width: 200px;
+  margin-left: -200px;
   transition: margin-left 0.5s ease;
 }
 
 .sidebar-open {
   grid-area: sidebar;
-  width: 15vw;
+  width: 200px;
   margin-left: 0;
   transition: margin-left 0.5s ease;
 }
@@ -35,6 +38,9 @@ body {
   grid-area: main;
 }
 
-.footer {
+footer {
   grid-area: footer;
+  -webkit-box-shadow: -3px -4px 5px rgba(34, 45, 55, 0.5);
+  -moz-box-shadow: -3px -4px 5px rgba(34, 45, 55, 0.5);
+  box-shadow: -3px -4px 5px rgba(34, 45, 55, 0.5);
 }

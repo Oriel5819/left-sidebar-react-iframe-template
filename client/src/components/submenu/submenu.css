@@ -57,6 +57,14 @@
 }
 
 .submenu-title {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+
+  padding-left: 20px;
+  height: 100%;
+  font-size: 11px;
+  color: grey;
   width: 60%;
 }
 
