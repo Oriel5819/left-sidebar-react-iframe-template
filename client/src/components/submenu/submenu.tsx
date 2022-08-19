@@ -8,17 +8,19 @@ import DeleteSubmenuModal from "../modals/deleteSubmenu/deleteSubmenuModal";
 interface SubmenuProps {
   menuTitle: string;
   menuId: string;
+  submenuId: string;
   title: string;
   id: string;
   icon: string;
   rank: number;
   link: string;
-  menuPort: string;
+  menuPort: number;
   open: boolean;
 }
 
 const Submenu: React.FC<SubmenuProps> = ({
   menuId,
+  submenuId,
   title,
   id,
   icon,
@@ -33,7 +35,7 @@ const Submenu: React.FC<SubmenuProps> = ({
   const [openDeleteSubmenuModal, setOpenDeleteSubmenuModal] =
     React.useState<boolean>(false);
 
-  const sendUrl = (menu_port: string, submenu_link: string) => {
+  const sendUrl = (menu_port: number, submenu_link: string) => {
     localStorage.setItem("port", JSON.stringify(menu_port));
     localStorage.setItem("link", JSON.stringify(submenu_link));
     setGlobalState("port", menu_port);
@@ -49,9 +51,9 @@ const Submenu: React.FC<SubmenuProps> = ({
     >
       <UpdateSubmenuModal
         menuId={menuId}
+        submenuId={submenuId}
         title={title}
         id={id}
-        icon={icon}
         rank={rank}
         link={link}
         openEditSubmenuModal={openEditSubmenuModal}
@@ -61,7 +63,7 @@ const Submenu: React.FC<SubmenuProps> = ({
       <DeleteSubmenuModal
         title={title}
         menuId={menuId}
-        id={id}
+        submenuId={id}
         openDeleteSubmenuModal={openDeleteSubmenuModal}
         setOpenDeleteSubmenuModal={setOpenDeleteSubmenuModal}
       />

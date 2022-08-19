@@ -1,17 +1,21 @@
-import mongoose from "mongoose";
-import * as dotenv from "dotenv";
+import { connect } from "mongoose";
+import { MONGO_URI } from "../config/constants";
 
-dotenv.config({ path: "./.env" });
+const databaseConnection = async () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const connection = await connect(MONGO_URI as string, {
+        dbName: `leftmenu`,
+      });
 
-function connect() {
-  const DATABASE_URI = process.env.databaseURI as string;
+      if (connection) {
+        console.log(`Connected to ${MONGO_URI}`);
+        resolve(connection);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
-  return mongoose
-    .connect(DATABASE_URI, {})
-    .then(() => console.log("Database connected"))
-    .catch((error) => {
-      console.log(error.message);
-    });
-}
-
-export default connect;
+export { databaseConnection };

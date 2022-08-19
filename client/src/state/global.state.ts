@@ -5,7 +5,7 @@ const { setGlobalState, useGlobalState } = createGlobalState({
   isAdministrator: false,
   openMenuId: "",
   open: false,
-  port: "",
+  port: 0,
   link: "",
   requestErrorMessage: "",
   refresh: false,

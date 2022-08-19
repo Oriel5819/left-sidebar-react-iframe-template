@@ -1,22 +1,12 @@
-import React from "react";
+import { useState } from "react";
 import Modal from "react-modal";
 import "../modal.css";
 import * as FontAwesome from "react-icons/fa";
-import { setGlobalState, useGlobalState } from "../../../state/global.state";
 import { createMenu } from "../../../services/menu.service";
+import { customStyles } from "../commonModalStyle";
+import { IMenu } from "../../../types/types";
+import { useGlobalState, setGlobalState } from "../../../state/global.state";
 
-const customStyles = {
-  content: {
-    top: "30%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    padding: "0",
-    // backgroundColor: "red",
-  },
-};
 Modal.setAppElement("#root");
 
 interface createMenuModalProps {
@@ -28,37 +18,31 @@ const CreateMenuModal = ({
   open,
   setOpenAddMenuModal,
 }: createMenuModalProps) => {
-  const [newMenuTitle, setNewMenuTitle] = React.useState<string>("");
-  const [newMenuId, setNewMenuId] = React.useState<string>("");
-  const [newMenuIcon, setNewMenuIcon] = React.useState<string>("");
-  const [newMenuRank, setNewMenuRank] = React.useState<number>(0);
-  const [newMenuLink, setNewMenuLink] = React.useState<string>("");
-  const [newMenuPort, setNewMenuPort] = React.useState<string>("");
-  const [errorMessage, setErrorMessage] = React.useState<string>("");
+  const [newMenu, setNewMenu] = useState<IMenu>({
+    title: null,
+    id: null,
+    icon: null,
+    rank: null,
+    link: null,
+    port: null,
+  });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const refresh = useGlobalState("refresh")[0];
 
   const closeModal = () => {
     setOpenAddMenuModal(false);
+    setGlobalState("refresh", !refresh);
   };
 
-  const handleSubmitCreateMenu = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    createMenu(newMenuTitle, newMenuId, newMenuIcon, newMenuRank, newMenuLink)
-      .then((result: any) => {
-        setGlobalState("refresh", !refresh);
-        setNewMenuTitle("");
-        setNewMenuId("");
-        setNewMenuIcon("");
-        setNewMenuRank(0);
-        setNewMenuLink("");
-        setNewMenuPort("");
-        setOpenAddMenuModal(false);
-      })
-      .catch((error: any) =>
-        setErrorMessage(
-          error.response.data.errorMessage || error.response.data.error
-        )
-      );
+  const handleSubmitCreateMenu = async (event: {
+    preventDefault: () => void;
+  }) => {
+    event.preventDefault();
+    const createdMenu = await createMenu(newMenu);
+    if (createdMenu) {
+      setOpenAddMenuModal(false);
+      setGlobalState("refresh", !refresh);
+    }
   };
 
   return (
@@ -70,10 +54,10 @@ const CreateMenuModal = ({
     >
       {/* <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2> */}
       <div className="modal-header">
+        <div className="title">Menu</div>
         <button className="icon-button" onClick={closeModal}>
           <FontAwesome.FaTimes />
         </button>
-        Create a menu
       </div>
 
       <form onSubmit={handleSubmitCreateMenu}>
@@ -81,46 +65,74 @@ const CreateMenuModal = ({
           <input
             type="text"
             placeholder="Title"
-            onChange={(e) => setNewMenuTitle(e.target.value)}
-            value={newMenuTitle}
+            onChange={(event) =>
+              setNewMenu({ ...newMenu, title: event.target.value })
+            }
+            value={newMenu.title ?? ""}
           />
           <input
             type="text"
             placeholder="Id"
-            onChange={(e) => setNewMenuId(e.target.value)}
-            value={newMenuId}
+            onChange={(event) =>
+              setNewMenu({ ...newMenu, id: event.target.value })
+            }
+            value={newMenu.id ?? ""}
           />
           <input
             type="text"
             placeholder="Icon"
-            onChange={(e) => setNewMenuIcon(e.target.value)}
-            value={newMenuIcon}
+            onChange={(event) =>
+              setNewMenu({ ...newMenu, icon: event.target.value })
+            }
+            value={newMenu.icon ?? ""}
           />
           <input
             type="text"
             placeholder="Rank"
-            onChange={(e) =>
-              setNewMenuRank(e.target.value as unknown as number)
-            }
-            value={newMenuRank}
+            onChange={(event) => {
+              const re = /^[0-9\b]+$/;
+              if (event.target.value === "" || re.test(event.target.value)) {
+                setErrorMessage(null);
+                setNewMenu({
+                  ...newMenu,
+                  rank: event.target.value as unknown as number,
+                });
+              } else {
+                setErrorMessage("Only numbers are allowed");
+              }
+            }}
+            value={newMenu.rank ?? ""}
           />
           <input
             type="text"
             placeholder="Link"
-            onChange={(e) => setNewMenuLink(e.target.value)}
-            value={newMenuLink}
+            onChange={(event) =>
+              setNewMenu({ ...newMenu, link: event.target.value })
+            }
+            value={newMenu.link ?? ""}
           />
           <input
             type="text"
             placeholder="Port"
-            onChange={(e) => setNewMenuPort(e.target.value)}
-            value={newMenuPort}
+            onChange={(event) => {
+              const re = /^[0-9\b]+$/;
+              if (event.target.value === "" || re.test(event.target.value)) {
+                setErrorMessage(null);
+                setNewMenu({
+                  ...newMenu,
+                  port: event.target.value as unknown as number,
+                });
+              } else {
+                setErrorMessage("Only numbers are allowed");
+              }
+            }}
+            value={newMenu.port ?? ""}
           />
         </div>
         <div className="modal-footer">
           <div id="errorMessage">{errorMessage}</div>
           <button className="add-button" type="submit">
-            Save
+            Create
           </button>
         </div>
       </form>

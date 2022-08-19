@@ -1,20 +1,17 @@
-import { Express, Request, Response, NextFunction, Router } from "express";
-import Submenu from "../models/submenu.model";
+import { Request, Response } from "express";
 import Menu from "../models/menu.model";
+import { Menus } from "../models";
 
-export default async function createSubmenu(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export const createSubmenu = async (request: Request, response: Response) => {
   try {
-    const { title, id, icon, rank, link, parent } = req.body;
+    const { menuid } = request.params;
+    const { title, id, icon, rank, link } = request.body;
 
     // let all_child_amount = await Submenu.find({ parent: parent });
 
     // UPDATING THE PARENT MENU
-    let menu_parent = await Menu.findOneAndUpdate(
-      { id: parent },
+    const createdSubmenu = await Menus.findOneAndUpdate(
+      { id: menuid },
       { $push: { submenus: { title, id, icon, rank, link } } },
       { new: true }
     );
@@ -34,60 +31,56 @@ export default async function createSubmenu(
     // new_menu.save();
     // /* CREATING THE NEW SUBMENU */
 
-    res.status(200).json({
-      menu_parent,
-    });
+    if (createdSubmenu) {
+      response.status(200).json({ message: `Submenu created`, createdSubmenu });
+    }
   } catch (error) {
-    res.status(500).json({ error: "error.message" });
+    response.status(500).json({ error: "error.message" });
   }
-}
+};
 
-export async function editSubmenu(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export const editSubmenu = async (request: Request, response: Response) => {
   try {
-    const { id } = req.params;
-    const { menuId, title, id: submenu_id, icon, rank, link } = req.body;
+    const { menuid, submenuid } = request.params; // submenuId
+    const { title, id, icon, rank, link } = request.body;
 
     // link could not be registered
 
-    await Menu.findOneAndUpdate(
-      { id: menuId },
+    const updatedSubmenu = await Menu.findOneAndUpdate(
+      { id: menuid },
       {
         $set: {
           "submenus.$[selectedSubmenu].title": title,
-          "submenus.$[selectedSubmenu].id": submenu_id,
+          "submenus.$[selectedSubmenu].id": id,
           "submenus.$[selectedSubmenu].icon": icon,
           "submenus.$[selectedSubmenu].rank": rank,
           "submenus.$[selectedSubmenu].link": link,
         },
       },
-      { arrayFilters: [{ "selectedSubmenu.id": id }] }
+      { arrayFilters: [{ "selectedSubmenu.id": submenuid }] }
     );
 
-    res.status(200).json({ msg: "Updated" });
+    if (updatedSubmenu) {
+      response.status(200).json({ msg: "Submenu updated", updatedSubmenu });
+    }
   } catch (error) {
-    res.status(500).json({ error: "error.message" });
+    response.status(500).json({ error: "error.message" });
   }
-}
+};
 
-export async function removeSubmenu(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export const removeSubmenu = async (request: Request, response: Response) => {
   try {
-    const { menuid, submenuid } = req.params;
+    const { menuid, submenuid } = request.params;
 
-    await Menu.findOneAndUpdate(
+    const deletedSubmenu = await Menu.findOneAndUpdate(
       { id: menuid },
       { $pull: { submenus: { id: submenuid } } }
     );
 
-    res.status(200).json({ message: "submenu deleted" });
+    if (deletedSubmenu) {
+      response.status(200).json({ message: "Submenu deleted", deletedSubmenu });
+    }
   } catch (error) {
-    res.status(500).json({ error: error });
+    response.status(500).json({ error: error });
   }
-}
+};

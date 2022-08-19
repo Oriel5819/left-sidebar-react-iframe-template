@@ -8,7 +8,6 @@ const MenuSchema = new mongoose.Schema(
       required: true,
       trim: true,
       unique: true,
-      default: "id",
     },
     icon: { type: String, required: true, trim: true, default: "icons.info" },
     rank: { type: Number, required: true, trim: true, unique: true },

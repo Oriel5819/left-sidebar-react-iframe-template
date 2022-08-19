@@ -4,10 +4,7 @@ import * as FontAwesome from "react-icons/fa";
 import { BiDotsHorizontal } from "react-icons/bi";
 import { IconType } from "react-icons";
 import Submenu from "../submenu/submenu";
-import Modal from "react-modal";
 import { setGlobalState, useGlobalState } from "../../state/global.state";
-import { editMenu, removeMenu } from "../../services/menu.service";
-import createSubmenu from "../../services/submenu.services";
 import UpdateMenuModal from "../modals/updateMenu/updateMenuModal";
 import CreateSubmenuModal from "../modals/createSubmenu/createSubmenuModal";
 
@@ -17,7 +14,7 @@ interface MenuProps {
   icon: string;
   rank: number;
   link: string;
-  port: string;
+  port: number;
   submenus: any[];
   openIf: string;
 }
@@ -43,7 +40,7 @@ const Menu = ({
     React.useState<boolean>(false);
   const [optionAction, setOptionAction] = React.useState<boolean>(false);
 
-  const handleMenuAction = () => {
+  const handleMenuAction = (id: string) => {
     setOptionAction(!optionAction);
   };
 
@@ -59,6 +56,7 @@ const Menu = ({
   return (
     <div>
       <UpdateMenuModal
+        menuid={id}
         title={title}
         id={id}
         icon={icon}
@@ -106,7 +104,7 @@ const Menu = ({
                 />
                 <BiDotsHorizontal
                   className="menu-button-option-icon"
-                  onClick={() => handleMenuAction()}
+                  onClick={() => handleMenuAction(id)}
                 />
               </div>
             ) : (
@@ -138,6 +136,7 @@ const Menu = ({
                   key={index}
                   menuTitle={title}
                   menuId={id}
+                  submenuId={submenu.id}
                   title={submenu.title}
                   id={submenu.id}
                   icon={submenu.icon}

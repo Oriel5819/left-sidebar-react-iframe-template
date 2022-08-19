@@ -1,27 +1,17 @@
-import React from "react";
+import { useState } from "react";
 import Modal from "react-modal";
 import { editSubmenu } from "../../../services/submenu.services";
 import { setGlobalState, useGlobalState } from "../../../state/global.state";
 import { FaTimes } from "react-icons/fa";
-
-const customStyles = {
-  content: {
-    top: "20%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    padding: "0",
-  },
-};
+import { customStyles } from "../commonModalStyle";
+import { ISubmenu } from "../../../types/types";
 Modal.setAppElement("#root");
 
 interface UpdateSubmenuModalProps {
   menuId: string;
+  submenuId: string;
   title: string;
   id: string;
-  icon: string;
   rank: number;
   link: string;
   openEditSubmenuModal: boolean;
@@ -30,42 +20,35 @@ interface UpdateSubmenuModalProps {
 
 const UpdateSubmenuModal = ({
   menuId,
+  submenuId,
   title,
   id,
-  icon,
   rank,
   link,
   openEditSubmenuModal,
   setOpenEditSubmenuModal,
 }: UpdateSubmenuModalProps) => {
-  const [submenuTitle, setSubmenuTitle] = React.useState<string>(title);
-  const [submenuId, setSubmenuId] = React.useState<string>(id);
-  const [submenuIcon, setSubmenuIcon] = React.useState<string>(icon);
-  const [submenuRank, setSubmenuRank] = React.useState<number>(rank);
-  const [submenuLink, setSubmenuLink] = React.useState<string>(link);
-  const refresh = useGlobalState("refresh")[0];
-  const [errorMessage, setErrorMessage] = React.useState<string>("");
+  const [updateSubmenu, setUpdateSubmenu] = useState<ISubmenu>({
+    title,
+    id,
+    rank,
+    link,
+  });
 
-  const handleSubmitEditSubmenu = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    editSubmenu(
-      menuId,
-      id,
-      submenuTitle,
-      submenuId,
-      submenuIcon,
-      submenuRank,
-      submenuLink
-    )
-      .then((result) => {
-        setOpenEditSubmenuModal(false);
-        setGlobalState("refresh", !refresh);
-      })
-      .catch((error) =>
-        setErrorMessage(
-          error.response.data.errorMessage || error.response.data.error
-        )
-      );
+  const refresh = useGlobalState("refresh")[0];
+  const [errorMessage, setErrorMessage] = useState<string | null>("");
+
+  const handleSubmitEditSubmenu = async (event: {
+    preventDefault: () => void;
+  }) => {
+    event.preventDefault();
+
+    const updatedSubmenu = await editSubmenu(menuId, submenuId, updateSubmenu);
+
+    if (updateSubmenu) {
+      setOpenEditSubmenuModal(false);
+      setGlobalState("refresh", !refresh);
+    }
   };
 
   const closeModal = () => {
@@ -80,10 +63,10 @@ const UpdateSubmenuModal = ({
       style={customStyles}
     >
       <div className="modal-header">
+        <div className="title">Submenu</div>
         <button className="icon-button" onClick={closeModal}>
           <FaTimes />
         </button>
-        Edit submenu
       </div>
 
       <form onSubmit={handleSubmitEditSubmenu}>
@@ -91,34 +74,43 @@ const UpdateSubmenuModal = ({
           <input
             type="text"
             placeholder="Title"
-            onChange={(e) => setSubmenuTitle(e.target.value)}
-            value={submenuTitle}
+            onChange={(event) =>
+              setUpdateSubmenu({ ...updateSubmenu, title: event.target.value })
+            }
+            value={updateSubmenu.title ?? ""}
           />
           <input
             type="text"
             placeholder="Id"
-            onChange={(e) => setSubmenuId(e.target.value)}
-            value={submenuId}
-          />
-          <input
-            type="text"
-            placeholder="Icon"
-            onChange={(e) => setSubmenuIcon(e.target.value)}
-            value={submenuIcon}
+            onChange={(event) =>
+              setUpdateSubmenu({ ...updateSubmenu, id: event.target.value })
+            }
+            value={updateSubmenu.id ?? ""}
           />
           <input
             type="text"
             placeholder="Rank"
-            onChange={(e) =>
-              setSubmenuRank(e.target.value as unknown as number)
-            }
-            value={submenuRank}
+            onChange={(event) => {
+              const re = /^[0-9\b]+$/;
+              if (event.target.value === "" || re.test(event.target.value)) {
+                setErrorMessage(null);
+                setUpdateSubmenu({
+                  ...updateSubmenu,
+                  rank: event.target.value as unknown as number,
+                });
+              } else {
+                setErrorMessage("Only numbers are allowed");
+              }
+            }}
+            value={updateSubmenu.rank ?? ""}
           />
           <input
             type="text"
             placeholder="Link"
-            onChange={(e) => setSubmenuLink(e.target.value)}
-            value={submenuLink}
+            onChange={(event) =>
+              setUpdateSubmenu({ ...updateSubmenu, link: event.target.value })
+            }
+            value={updateSubmenu.link ?? ""}
           />
         </div>
         <div className="modal-footer">

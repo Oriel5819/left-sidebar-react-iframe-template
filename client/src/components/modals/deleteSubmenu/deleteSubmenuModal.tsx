@@ -3,24 +3,14 @@ import Modal from "react-modal";
 import { FaTimes, FaTrash } from "react-icons/fa";
 import { removeSubmenu } from "../../../services/submenu.services";
 import { setGlobalState, useGlobalState } from "../../../state/global.state";
+import { customStyles } from "../commonModalStyle";
 
-const customStyles = {
-  content: {
-    top: "20%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    padding: "0",
-  },
-};
 Modal.setAppElement("#root");
 
 interface deleteSubmenuProps {
   title: string;
   menuId: string;
-  id: string;
+  submenuId: string;
   openDeleteSubmenuModal: boolean;
   setOpenDeleteSubmenuModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -28,25 +18,22 @@ interface deleteSubmenuProps {
 const DeleteSubmenuModal = ({
   title,
   menuId,
-  id,
+  submenuId,
   openDeleteSubmenuModal,
   setOpenDeleteSubmenuModal,
 }: deleteSubmenuProps) => {
   const refresh = useGlobalState("refresh")[0];
   const [errorMessage, setErrorMessage] = React.useState<string>("");
 
-  const handleSubmitDeleteSubmenu = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    removeSubmenu(menuId, id)
-      .then((result) => {
-        setOpenDeleteSubmenuModal(false);
-        setGlobalState("refresh", !refresh);
-      })
-      .catch((error) =>
-        setErrorMessage(
-          error.response.data.errorMessage || error.response.data.error
-        )
-      );
+  const handleSubmitDeleteSubmenu = async (event: {
+    preventDefault: () => void;
+  }) => {
+    event.preventDefault();
+    const removedSubmenu = await removeSubmenu(menuId, submenuId);
+    if (removedSubmenu) {
+      setOpenDeleteSubmenuModal(false);
+      setGlobalState("refresh", !refresh);
+    }
   };
 
   const closeModal = () => {
@@ -60,14 +47,14 @@ const DeleteSubmenuModal = ({
       style={customStyles}
     >
       <div className="modal-header">
+        <div className="title"> Submenu</div>
         <button className="icon-button" onClick={closeModal}>
           <FaTimes />
         </button>
-        Remove submenu
       </div>
       <form onSubmit={handleSubmitDeleteSubmenu}>
         <div className="modal-body">
-          <label htmlFor="">Are you sure to remove {title} submenu ?</label>
+          <label htmlFor="">Are you sure to delete {title} submenu ?</label>
         </div>
         <div className="modal-footer">
           <div id="errorMessage">{errorMessage}</div>

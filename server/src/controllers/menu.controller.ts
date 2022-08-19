@@ -1,132 +1,104 @@
-import { Express, Request, Response, NextFunction, Router } from "express";
-import Menu from "../models/menu.model";
-import Submenu from "../models/submenu.model";
+import { Request, Response } from "express";
+import { Menus, Submenus } from "../models";
+import { IMenu } from "../types/types";
 
-async function getMenus(req: Request, res: Response, next: NextFunction) {
+const getMenus = async (request: Request, response: Response) => {
   try {
-    let allMenus: Object[] = await Menu.find();
-    res.status(200).json(allMenus);
+    const allMenus: IMenu[] = await Menus.find();
+    response.status(200).json(allMenus);
   } catch (error: any) {
-    res.status(500).json({ error: error.message });
+    response.status(500).json({ error: error.message });
   }
-}
+};
 
-async function createMenu(req: Request, res: Response, next: NextFunction) {
+const createMenu = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
   try {
-    const { title, id: css_id, icon, rank, link, port, submenus } = req.body;
-    const submenu_array: Object[] = [];
+    const { title, id, icon, rank, link, port } = request.body;
 
+    // Managing error from the input whether there is some empty input or not
     if (!title) {
-      return res.status(400).json({ errorMessage: `Menu title is required` });
+      response.status(500).json({ errorMessage: `Menu title is required` });
     }
-
-    if (!css_id) {
-      return res.status(400).json({ errorMessage: `Menu id is required` });
+    if (!id) {
+      response.status(500).json({ errorMessage: `Menu id is required` });
     }
-
     if (!icon) {
-      return res.status(400).json({ errorMessage: `Menu icon is required` });
+      response.status(500).json({ errorMessage: `Menu icon is required` });
     }
-
     if (!rank) {
-      return res.status(400).json({ errorMessage: `Menu rank is required` });
+      response.status(500).json({ errorMessage: `Menu rank is required` });
     }
-
     if (!link) {
-      return res.status(400).json({ errorMessage: `Menu link is required` });
+      response.status(500).json({ errorMessage: `Menu link is required` });
     }
-
     if (!port) {
-      return res.status(400).json({ errorMessage: `Menu port is required` });
+      response.status(500).json({ errorMessage: `Menu port is required` });
     }
 
-    // if (submenus) {
-    //   for (let index = 0; index < submenus.length; index++) {
-    //     let submenu_title = submenus[index].title;
-    //     let submenu_icon = submenus[index].icon;
-
-    //     let temp_: object = {
-    //       title: submenu_title,
-    //       id:
-    //         css_id.toLocaleLowerCase() +
-    //         "-" +
-    //         submenu_title.toLocaleLowerCase(),
-    //       icon: submenu_icon,
-    //       rank: index,
-    //       link:
-    //         "/" +
-    //         title.toLocaleLowerCase() +
-    //         "/" +
-    //         submenu_title.toLocaleLowerCase(),
-    //     };
-
-    //     submenu_array.push(temp_);
-    //   }
-
-    //   // CREATING MENU
-    //   let new_menu = await new Menu({
-    //     title,
-    //     id: css_id,
-    //     icon,
-    //     rank,
-    //     link: "/" + title.toLocaleLowerCase(),
-    //     submenus: submenu_array,
-    //   });
-
-    //   new_menu
-    //     .save()
-    //     .then((new_menu: any) => res.status(201).json(new_menu))
-    //     .catch((errorMessage: any) => res.status(400).json({ errorMessage }));
-    // } else {}
-
+    // if not
     // CREATING MENU
-    let new_menu = await new Menu({
+    const newMenu: IMenu = await Menus.create({
       title,
-      id: css_id,
+      id,
       icon,
       rank,
       link,
       port,
     });
 
-    new_menu
-      .save()
-      .then((new_menu: any) => res.status(201).json(new_menu))
-      .catch((err: any) => res.status(400).json({ error: err.message }));
+    if (newMenu) {
+      response.status(201).json(newMenu);
+    }
   } catch (error: any) {
-    res.status(500).json({ error: error.message });
+    response.status(500).json({ error: error.message });
   }
-}
+};
 
-async function editMenu(req: Request, res: Response, next: NextFunction) {
+const editMenu = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
   try {
-    const { id } = req.params;
-    const { title, id: css_id, icon, rank, link, port } = req.body;
+    const { menuid } = request.params;
+    const { title, id, icon, rank, link, port } = request.body;
 
-    let edited_menu = await Menu.findOneAndUpdate(
-      { id: id },
-      { title, id: css_id, icon, rank, link, port }
+    const editedMenu: IMenu | null = await Menus.findOneAndUpdate(
+      { id: menuid },
+      {
+        title,
+        id,
+        icon,
+        rank,
+        link,
+        port,
+      }
     );
 
-    return res.status(200).json({ edited_menu });
+    if (editedMenu) {
+      response.status(200).json({ editedMenu });
+    }
   } catch (error: any) {
-    res.status(500).json({ error: error.message });
+    response.status(500).json({ error: error.message });
   }
-}
+};
 
-async function removeMenu(req: Request, res: Response, next: NextFunction) {
+const removeMenu = async (request: Request, response: Response) => {
   try {
-    const { id } = req.params;
+    const { menuid } = request.params;
 
-    await Menu.deleteOne({ id: id });
-    // await Submenu.deleteMany({ parent: id }),
-    res
-      .status(200)
-      .json({ Succes: "Menu and its submenu has been deleted successfully" });
+    const deletedMenu = await Menus.findOneAndDelete({ id: menuid });
+    // await Submenus.deleteMany({ parent: menuid }),
+    if (deletedMenu) {
+      response
+        .status(200)
+        .json({ Succes: "Menu and its submenu has been deleted successfully" });
+    }
   } catch (error: any) {
-    res.status(500).json({ error: error.message });
+    response.status(500).json({ error: error.message });
   }
-}
+};
 
-export default getMenus;
-export { createMenu, editMenu, removeMenu };
+export { getMenus, createMenu, editMenu, removeMenu };
