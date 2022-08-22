@@ -73,7 +73,8 @@
 }
 
 .submenu-icon-button {
-  padding: 5px;
+  font-size: 11px;
+  padding: 4px;
 }
 
 .submenu-icon-button:hover {

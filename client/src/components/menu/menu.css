@@ -96,12 +96,16 @@
 }
 
 .menu-button-option-icon {
-  padding: 5px;
+  color: #222d37;
+  font-size: 11px;
+  padding: 4px;
 }
 
 .menu-button-option-icon:hover {
-  /* background-color: #222d37; */
-  padding: 5px;
+  font-size: 11px;
+  background-color: #222d37;
+  color: grey;
+  padding: 4px;
   border-radius: 50%;
 }
 
