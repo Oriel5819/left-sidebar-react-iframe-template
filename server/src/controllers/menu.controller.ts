@@ -78,7 +78,9 @@ const editMenu = async (
     );
 
     if (editedMenu) {
-      response.status(200).json({ editedMenu });
+      response
+        .status(200)
+        .json({ menuid, editedMenu: { title, id, icon, rank, link, port } });
     }
   } catch (error: any) {
     response.status(500).json({ error: error.message });
@@ -92,9 +94,9 @@ const removeMenu = async (request: Request, response: Response) => {
     const deletedMenu = await Menus.findOneAndDelete({ id: menuid });
     // await Submenus.deleteMany({ parent: menuid }),
     if (deletedMenu) {
-      response
-        .status(200)
-        .json({ Succes: "Menu and its submenu has been deleted successfully" });
+      response.status(200).json({
+        menuid,
+      });
     }
   } catch (error: any) {
     response.status(500).json({ error: error.message });
