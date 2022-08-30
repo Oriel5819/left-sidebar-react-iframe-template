@@ -32,7 +32,9 @@ export const createSubmenu = async (request: Request, response: Response) => {
     // /* CREATING THE NEW SUBMENU */
 
     if (createdSubmenu) {
-      response.status(200).json({ message: `Submenu created`, createdSubmenu });
+      response
+        .status(200)
+        .json({ menuid, newSubmenu: { title, id, icon, rank, link } });
     }
   } catch (error) {
     response.status(500).json({ error: "error.message" });
@@ -61,7 +63,11 @@ export const editSubmenu = async (request: Request, response: Response) => {
     );
 
     if (updatedSubmenu) {
-      response.status(200).json({ msg: "Submenu updated", updatedSubmenu });
+      response.status(200).json({
+        menuid,
+        submenuid,
+        updatedSubmenu: { title, id, icon, rank, link },
+      });
     }
   } catch (error) {
     response.status(500).json({ error: "error.message" });
@@ -78,7 +84,7 @@ export const removeSubmenu = async (request: Request, response: Response) => {
     );
 
     if (deletedSubmenu) {
-      response.status(200).json({ message: "Submenu deleted", deletedSubmenu });
+      response.status(200).json({ menuid, submenuid });
     }
   } catch (error) {
     response.status(500).json({ error: error });
